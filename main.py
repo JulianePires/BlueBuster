@@ -14,6 +14,7 @@ def execute(sql, params=None):
         with conn.cursor() as cursor:
             cursor.execute(sql, params)
             conn.commit()
+            return cursor.lastrowid
 
 def query(sql, params=None):
     with connect(**configuracoes_bd) as conn:

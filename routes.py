@@ -1,1 +1,0 @@
-@app.route("/diretores", methods=[])
