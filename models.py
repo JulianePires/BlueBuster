@@ -35,3 +35,15 @@ def delete_movie(column, value):
 
 def delete_user(column, value):
     Users.delete(column, value)
+
+def select_director(key_value):
+    Directors.select(key_value)
+
+def select_gender(key_value):
+    Genders.select(key_value)
+
+def select_movie(key_value):
+    Movies.select(key_value)
+
+def select_user(key_value):
+    Users.select(key_value)

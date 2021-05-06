@@ -34,8 +34,8 @@ class Table:
     def update(self, key_value, columns, values):
         sets = [f"{column} = %s" for column in columns]
         execute(f"""UPDATE {self.name} SET {",".join(sets)} WHERE id = %s""", values + [key_value])
-    def select(self, key=1, key_value=1, limit=100, offset=0):
-        return query(f"""SELECT * FROM {self.name} WHERE {key} = %s LIMIT {limit} offset {offset}""", (key_value,))
+    def select(self, key_value=1, limit=100, offset=0):
+        return query(f"""SELECT * FROM {self.name} WHERE id = %s LIMIT {limit} offset {offset}""", (key_value,))
 
 class Users(Table):
     name: "usuarios"
