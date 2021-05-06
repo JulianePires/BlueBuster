@@ -16,14 +16,6 @@ $ git clone https://github.com/JulianePires/BlueBuster
 # Access
 $ cd BlueBuster
 
-# Install dependencies
-$ yarn
-
-# Run the project
-$ yarn start
-
-# The server will initialize in the <http://localhost:3000>
-
 Configurações do projeto
 
     # Instalação das dependências
