@@ -11,7 +11,7 @@ configuracoes_bd = {
 
 def execute(sql, params=None):
     with connect(**configuracoes_bd) as conn:
-        with conn.cursor() as cursor:
+        with conn.cursor(dictionary=True) as cursor:
             cursor.execute(sql, params)
             conn.commit()
             return cursor.lastrowid
@@ -27,7 +27,7 @@ class Table:
         execute(f"""CREATE TABLE {self.name} (
             {", ".join([f"{column} {typeof}" for column, typeof in self.columns.items()])}""")
     def insert(self, columns, values):
-        execute(f"""INSERT INTO {self.nome} (
+       return execute(f"""INSERT IGNORE INTO {self.nome} (
             {",".join(columns)}) VALUES ({",".join(['%s' for value in values])})""", values)
     def delete(self, column, value):
         execute(f"""DELETE FROM {self.name} WHERE {column} = %s""", (value,))
