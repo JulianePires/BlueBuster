@@ -38,7 +38,7 @@ def movies_from_db(movie):
         "titulo": movie["titulo"],
         "ano": movie["ano"],
         "classificacao": movie["classificacao"],
-        "preco": movie["preco"],
+        "preco": str(movie["preco"]),
         "diretores_id": movie["diretores_id"],
         "generos_id": movie["generos_id"]
     }
