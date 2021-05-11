@@ -2,7 +2,7 @@ from mysql.connector import connect
 
 show_schemas = "SHOW SCHEMAS"
 
-configuracoes_bd = {
+bd_configurations = {
     "host": "localhost",
     "user": "root",
     "password": "Polinomio110501",
@@ -11,7 +11,7 @@ configuracoes_bd = {
 
 
 def execute(sql, params=None):
-    with connect(**configuracoes_bd) as conn:
+    with connect(**bd_configurations) as conn:
         with conn.cursor() as cursor:
             cursor.execute(sql, params)
             conn.commit()
@@ -19,7 +19,7 @@ def execute(sql, params=None):
 
 
 def query(sql, params=None):
-    with connect(**configuracoes_bd) as conn:
+    with connect(**bd_configurations) as conn:
         with conn.cursor(dictionary=True) as cursor:
             cursor.execute(sql, params)
             return cursor.fetchall()
