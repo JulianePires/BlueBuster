@@ -5,12 +5,12 @@ from validators import valida_user, valida_movie, valida_gender, valida_director
 
 app = Flask(__name__)
 
+
 @app.route("/directors", methods=["GET"])
 def get_director():
-    nome_completo = serializers.directors_from_web(**request.args)
-    directors = models.get_director(nome_completo)
-    director_from_db = [serializers.directors_from_db(director) for director in directors]
-    return jsonify(director_from_db)
+    directors = models.get_director_all()
+    return jsonify(directors)
+
 
 @app.route("/directors", methods=["POST"])
 def insert_director():
@@ -22,6 +22,7 @@ def insert_director():
     else:
         return jsonify({"erro": "Diretor inválido"})
 
+
 @app.route("/directors/<int:id>", methods=["PUT", "PATCH"])
 def update_directors(id):
     director = serializers.directors_from_web(**request.json)
@@ -32,20 +33,21 @@ def update_directors(id):
     else:
         return jsonify({"erro": "Diretor inválido"})
 
+
 @app.route("/directors/<int:id>", methods=["DELETE"])
-def delete_user(id):
+def delete_director(id):
     try:
         models.delete_director(id)
-        return None, 204
+        return "", 204
     except:
         return jsonify({"erro": "Diretor possui itens conectados a ele"})
 
+
 @app.route("/genders", methods=["GET"])
 def get_gender():
-    nome = serializers.genders_from_web(**request.args)
-    genders = models.get_gender(nome)
-    gender_from_db = [serializers.genders_from_db(gender) for gender in genders]
-    return jsonify(gender_from_db)
+    genders = models.get_gender_all()
+    return jsonify(genders)
+
 
 @app.route("/genders", methods=["POST"])
 def insert_gender():
@@ -57,6 +59,7 @@ def insert_gender():
     else:
         return jsonify({"erro": "Gênero inválido"})
 
+
 @app.route("/genders/<int:id>", methods=["PUT", "PATCH"])
 def update_genders(id):
     gender = serializers.genders_from_web(**request.json)
@@ -67,20 +70,21 @@ def update_genders(id):
     else:
         return jsonify({"erro": "Gênero inválido"})
 
+
 @app.route("/genders/<int:id>", methods=["DELETE"])
 def delete_gender(id):
     try:
         models.delete_gender(id)
-        return None, 204
+        return "", 204
     except:
         return jsonify({"erro": "Gênero possui itens conectados a ele"})
 
+
 @app.route("/movies", methods=["GET"])
 def get_movie():
-    titulo = serializers.movies_from_web(**request.args)
-    movies = models.get_movie(titulo)
-    movie_from_db = [serializers.movies_from_db(movie) for movie in movies]
-    return jsonify(movie_from_db)
+    movies = models.get_movie_all()
+    return jsonify(movies)
+
 
 @app.route("/movies", methods=["POST"])
 def insert_movie():
@@ -92,6 +96,7 @@ def insert_movie():
     else:
         return jsonify({"erro": "Filme inválido"})
 
+
 @app.route("/movies/<int:id>", methods=["PUT", "PATCH"])
 def update_movie(id):
     movie = serializers.movies_from_web(**request.json)
@@ -102,13 +107,15 @@ def update_movie(id):
     else:
         return jsonify({"erro": "Filme inválido"})
 
+
 @app.route("/movies/<int:id>", methods=["DELETE"])
 def delete_movie(id):
     try:
         models.delete_movie(id)
-        return None, 204
+        return "", 204
     except:
         return jsonify({"erro": "Filme possui itens conectados a ele"})
+
 
 @app.route("/users", methods=["POST"])
 def insert_user():
@@ -120,6 +127,7 @@ def insert_user():
     else:
         return jsonify({"erro": "Usuário inválido"})
 
+
 @app.route("/users/<int:id>", methods=["PUT", "PATCH"])
 def update_users(id):
     user = serializers.users_from_web(**request.json)
@@ -130,20 +138,21 @@ def update_users(id):
     else:
         return jsonify({"erro": "Usuário inválido"})
 
+
 @app.route("/users/<int:id>", methods=["DELETE"])
 def delete_user(id):
     try:
         models.delete_user(id)
-        return None, 204
+        return "", 204
     except:
         return jsonify({"erro": "Usuário possui itens conectados a ele"})
 
+
 @app.route("/usuarios", methods=["GET"])
 def get_user():
-    nome_completo = serializers.users_from_web(**request.args)
-    users = models.get_user(nome_completo)
-    users_from_db = [serializers.users_from_db(user) for user in users]
-    return jsonify(users_from_db)
+    users = models.get_user_all()
+    return jsonify(users)
+
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", debug=True)

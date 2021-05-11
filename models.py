@@ -1,49 +1,81 @@
 from main import Directors, Genders, Movies, Users
 
+
 def insert_director(nome_completo):
-    return Directors.insert("nome_completo", nome_completo)
+    return Directors().insert([nome_completo])
+
 
 def insert_gender(nome):
-    return Genders.insert("nome", nome)
+    return Genders().insert([nome])
+
 
 def insert_movie(titulo, ano, classificacao, preco, diretores_id, generos_id):
-    return Movies.insert(["titulo", "ano", "classificacao", "preco", "diretores_id", "generos_id"], [titulo, ano, classificacao, preco, diretores_id, generos_id])
+    return Movies().insert([titulo, ano, classificacao, preco, diretores_id, generos_id])
+
 
 def insert_user(nome_completo, CPF):
-    return Users.insert(["nome_completo", "CPF"], [nome_completo, CPF])
+    return Users().insert([nome_completo, CPF])
+
 
 def update_director(key_value, novo_nome):
-    Directors.update(key_value, "nome_completo", novo_nome)
+    Directors().update(key_value, novo_nome)
+
 
 def update_gender(key_value, novo_nome):
-    Genders.update(key_value, "nome", novo_nome)
+    Genders().update(key_value, novo_nome)
+
 
 def update_movie(key_value, titulo, ano, classificacao, preco, diretores_id, generos_id):
-    Movies.update(key_value, ["titulo", "ano", "classificacao", "preco", "diretores_id", "generos_id"], [titulo, ano, classificacao, preco, diretores_id, generos_id])
+    Movies().update(key_value, [titulo, ano, classificacao, preco, diretores_id, generos_id])
+
 
 def update_user(key_value, nome_completo, CPF):
-    Users.update(key_value, ["nome_completo", "CPF"], [nome_completo, CPF])
+    Users().update(key_value, [nome_completo, CPF])
+
 
 def delete_director(nome_completo):
-    Directors.delete("nome_completo", nome_completo)
+    Directors().delete("nome_completo", nome_completo)
 
-def delete_gender(nome):
-    Genders.delete("nome", nome)
 
-def delete_movie(column, value):
-    Movies.delete(column, value)
+def delete_gender(key_value):
+    Genders().delete(id, key_value)
 
-def delete_user(column, value):
-    Users.delete(column, value)
+
+def delete_movie(key_value):
+    Movies().delete(id, key_value)
+
+
+def delete_user(key_value):
+    Users().delete(id, key_value)
+
 
 def get_director(key_value):
-    Directors.select(key_value)[0]
+    return Directors().select(key_value)[0]
+
 
 def get_gender(key_value):
-    Genders.select(key_value)[0]
+    return Genders().select(key_value)[0]
+
 
 def get_movie(key_value):
-    Movies.select(key_value)[0]
+    return Movies().select(key_value)[0]
+
 
 def get_user(key_value):
-    Users.select(key_value)[0]
+    return Users.select(key_value)[0]
+
+
+def get_director_all():
+    return Directors().select_all()
+
+
+def get_gender_all():
+    return Genders().select_all()
+
+
+def get_movie_all():
+    return Movies().select_all()
+
+
+def get_user_all():
+    return Users.select_all()

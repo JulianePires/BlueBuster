@@ -3,10 +3,12 @@ def valida_director(nome_completo):
         return False
     return True
 
+
 def valida_gender(nome):
     if len(nome) == 0:
         return False
     return True
+
 
 def valida_movie(titulo, ano, classificacao, preco, diretores_id, generos_id):
     if len(titulo) == 0:
@@ -22,6 +24,7 @@ def valida_movie(titulo, ano, classificacao, preco, diretores_id, generos_id):
     if generos_id < 1:
         return False
     return True
+
 
 def valida_user(nome_completo, CPF):
     if len(nome_completo) == 0:
