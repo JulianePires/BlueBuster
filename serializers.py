@@ -53,7 +53,6 @@ def users_from_web(**kwargs):
 
 def users_from_db(user):
     return {
-        "id": user["id"],
         "nome_completo": user["nome_completo"],
         "CPF": user["CPF"]
     }
