@@ -51,6 +51,42 @@ class Table:
     def select_like(self, column, value):
         return query(f"""SELECT * FROM {self.name} WHERE {column} LIKE %s""", value)
 
+    def select_location_by_id(self, key_value):
+        return query(f""""SELECT 
+                            usuarios.nome_completo, 
+                            filmes.titulo, 
+                            date_format(data_inicio, 
+                            "%d%m/%Y") data_locacao, 
+                            pagamento.status
+                        FROM locacoes 
+                        INNER JOIN usuarios ON locacoes.usuarios_id = usuarios.id 
+                        INNER JOIN filmes ON locacoes.filmes_id = filmes.id
+                        INNER JOIN pagamento ON locacoes.id = pagamento.locacoes_id
+                        WHERE locacoes.id = %s""", key_value)
+
+    def select_location_by_userid(self, key_value):
+        return query(f""""SELECT 
+                            usuarios.nome_completo, 
+                            filmes.titulo, 
+                            date_format(data_inicio, 
+                            "%d%m/%Y") data_locacao, 
+                        FROM locacoes 
+                        INNER JOIN usuarios ON locacoes.usuarios_id = %s 
+                        INNER JOIN filmes ON locacoes.filmes_id = filmes.id
+                        INNER JOIN pagamento ON locacoes.id = pagamento.locacoes_id
+                        """, key_value)
+
+    def select_location_by_movieid(self, key_value):
+        return query(f""""SELECT 
+                            usuarios.nome_completo, 
+                            filmes.titulo, 
+                            date_format(data_inicio, 
+                            "%d%m/%Y") data_locacao, 
+                        FROM locacoes 
+                        INNER JOIN usuarios ON locacoes.usuarios_id = usuarios.id
+                        INNER JOIN filmes ON locacoes.filmes_id = %s
+                        INNER JOIN pagamento ON locacoes.id = pagamento.locacoes_id
+                        """, key_value)
 
 class Users(Table):
     name = "usuarios"
@@ -65,7 +101,6 @@ class Payments(Table):
 class Locations(Table):
     name = "locacoes"
     columns = ("data_inicio", "data_fim", "filmes_id", "usuarios_id")
-
 
 class Genders(Table):
     name = "generos"
