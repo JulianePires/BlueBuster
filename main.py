@@ -35,8 +35,8 @@ class Table:
         return execute(f"""INSERT INTO {self.name} (
             {",".join(self.columns)}) VALUES ({", ".join(["%s" for value in values])})""", values)
 
-    def delete(self, column, value):
-        execute(f"""DELETE FROM {self.name} WHERE {column} = %s""", (value,))
+    def delete(self, key_value):
+        execute(f"""DELETE FROM {self.name} WHERE id = %s""", key_value)
 
     def update(self, key_value, values):
         sets = [f"{column} = %s" for column in self.columns]
@@ -48,31 +48,35 @@ class Table:
     def select_all(self):
         return query(f"""SELECT * FROM {self.name} LIMIT 1000 offset 0""")
 
+    def select_like(self, column, value):
+        return query(f"""SELECT * FROM {self.name} WHERE {column} LIKE %s""", value)
+
+
 class Users(Table):
-       name = "usuarios"
-       columns = ("nome_completo", "CPF")
+    name = "usuarios"
+    columns = ("nome_completo", "CPF")
 
 
 class Payments(Table):
-        name = "pagamento"
-        columns = ("tipo", "status", "codigo_paga", "valor", "data", "locacoes_id")
+    name = "pagamento"
+    columns = ("tipo", "status", "codigo_paga", "valor", "data", "locacoes_id")
 
 
 class Locations(Table):
-        name = "locacoes"
-        columns = ("data_inicio", "data_fim", "filmes_id", "usuarios_id")
+    name = "locacoes"
+    columns = ("data_inicio", "data_fim", "filmes_id", "usuarios_id")
 
 
 class Genders(Table):
-        name = "generos"
-        columns = ("nome",)
+    name = "generos"
+    columns = ("nome",)
 
 
 class Movies(Table):
-        name = "filmes"
-        columns = ("titulo", "ano", "classificacao", "preco", "diretores_id", "generos_id")
+    name = "filmes"
+    columns = ("titulo", "ano", "classificacao", "preco", "diretores_id", "generos_id")
 
 
 class Directors(Table):
-        name = "diretores"
-        columns = ("nome_completo",)
+    name = "diretores"
+    columns = ("nome_completo",)

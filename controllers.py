@@ -75,7 +75,7 @@ def update_genders(id):
 def delete_gender(id):
     try:
         models.delete_gender(id)
-        return "", 204
+        return None, 204
     except:
         return jsonify({"erro": "Gênero possui itens conectados a ele"})
 
@@ -143,15 +143,47 @@ def update_users(id):
 def delete_user(id):
     try:
         models.delete_user(id)
-        return "", 204
+        return None, 204
     except:
         return jsonify({"erro": "Usuário possui itens conectados a ele"})
 
 
-@app.route("/usuarios", methods=["GET"])
+@app.route("/users", methods=["GET"])
 def get_user():
     users = models.get_user_all()
     return jsonify(users)
+
+
+@app.route("/directors/name", methods=["GET"])
+def get_director_by_name():
+    director_name = serializers.directors_from_web(**request.json)
+    directors = models.get_director_by_name(director_name)
+    directors_from_db = [serializers.directors_from_db(director) for director in directors]
+    return jsonify(directors_from_db)
+
+
+@app.route("/genders/name", methods=["GET"])
+def get_gender_by_name():
+    gender_name = serializers.genders_from_web(**request.json)
+    genders = models.get_gender_by_name(gender_name)
+    genders_from_db = [serializers.genders_from_db(gender) for gender in genders]
+    return jsonify(genders_from_db)
+
+
+@app.route("/users/name", methods=["GET"])
+def get_user_by_name():
+    user_name = serializers.users_from_web(**request.json)
+    users = models.get_user_by_name(user_name)
+    users_from_db = [serializers.users_from_db(user) for user in users]
+    return jsonify(users_from_db)
+
+
+@app.route("/movies/name", methods=["GET"])
+def get_movie_by_name():
+    movie_title = serializers.movies_from_web(**request.json)
+    movies = models.get_movie_by_title(movie_title)
+    movies_from_db = [serializers.movies_from_db(movie) for movie in movies]
+    return jsonify(movies_from_db)
 
 
 if __name__ == "__main__":
