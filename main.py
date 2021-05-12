@@ -59,7 +59,7 @@ class Users(Table):
 
 class Payments(Table):
     name = "pagamento"
-    columns = ("tipo", "status", "codigo_paga", "valor", "data", "locacoes_id")
+    columns = ("tipo", "status", "codigo_pagamento", "valor", "data", "locacoes_id")
 
 
 class Locations(Table):
