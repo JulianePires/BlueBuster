@@ -1,3 +1,5 @@
+import random
+
 from flask import Flask, jsonify, request
 import models
 import serializers
@@ -156,34 +158,70 @@ def get_user():
 
 @app.route("/directors/name", methods=["GET"])
 def get_director_by_name():
-    director_name = serializers.directors_from_web(**request.json)
-    directors = models.get_director_by_name(director_name)
+    nome_completo = serializers.directors_from_web(**request.json)
+    directors = models.get_director_by_name(nome_completo)
     directors_from_db = [serializers.directors_from_db(director) for director in directors]
     return jsonify(directors_from_db)
 
 
 @app.route("/genders/name", methods=["GET"])
 def get_gender_by_name():
-    gender_name = serializers.genders_from_web(**request.json)
-    genders = models.get_gender_by_name(gender_name)
+    nome = serializers.genders_from_web(**request.json)
+    genders = models.get_gender_by_name(nome)
     genders_from_db = [serializers.genders_from_db(gender) for gender in genders]
     return jsonify(genders_from_db)
 
 
 @app.route("/users/name", methods=["GET"])
 def get_user_by_name():
-    user_name = serializers.users_from_web(**request.json)
-    users = models.get_user_by_name(user_name)
+    nome_completo = serializers.users_from_web(**request.json)
+    users = models.get_user_by_name(nome_completo)
     users_from_db = [serializers.users_from_db(user) for user in users]
     return jsonify(users_from_db)
 
 
 @app.route("/movies/name", methods=["GET"])
 def get_movie_by_name():
-    movie_title = serializers.movies_from_web(**request.json)
-    movies = models.get_movie_by_title(movie_title)
+    titulo = serializers.movies_from_web(**request.json)
+    movies = models.get_movie_by_title(titulo)
     movies_from_db = [serializers.movies_from_db(movie) for movie in movies]
     return jsonify(movies_from_db)
+
+
+@app.route("/locations", methods=["POST"])
+def create_new_location():
+    location = serializers.new_location_from_web(**request.json)
+    usuarios_id = location["usuarios_id"]
+    filmes_id = location["filmes_id"]
+    tipo_pagamento = location["tipo_pagamento"]
+    char = "1234567890abcdefghijklmnopqrstuvwxyz"
+    key = random.choice(char) + random.choice(char) + random.choice(char) + random.choice(char) + random.choice(char)
+    status = "em analise"
+    movie = models.get_movie(filmes_id)
+    id_location = models.make_location(usuarios_id, filmes_id)
+    id_payment = models.create_payment(tipo_pagamento, status, key, movie["preco"], "now()", id_location)
+    new_location = models.get_location_by_id(id_location)
+    new_payment = models.get_payment_by_id(id_payment)
+    return jsonify(serializers.locations_from_db(new_location)), jsonify(serializers.payments_from_db(new_payment))
+
+
+@app.route("/locations/<int:id>", methods=["GET"])
+def get_location_by_id(id):
+    locations = models.get_location_by_id(id)
+    location_from_db = [serializers.locations_from_db(location) for location in locations]
+    return jsonify(location_from_db)
+
+
+@app.route("/locations/<int:usuarios_id>", methods=["GET"])
+def get_location_by_user_id(usuarios_id):
+    locations = models.check_locations(usuarios_id)
+    return jsonify(locations)
+
+
+@app.route("/locations/<int:movie_id>", methods=["GET"])
+def get_location_by_movie_id(movie_id):
+    locations = models.get_locations_from_movie(movie_id)
+    return jsonify(locations)
 
 
 if __name__ == "__main__":

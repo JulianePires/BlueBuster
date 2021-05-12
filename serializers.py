@@ -58,12 +58,11 @@ def users_from_db(user):
     }
 
 
-def locations_from_web(**kwargs):
+def new_location_from_web(**kwargs):
     return {
-        "nome_usuario": kwargs["nome_usuario"] if "nome_usuario" in kwargs else "",
-        "nome_filme": kwargs["nome_filme"] if "nome_filme" in kwargs else "",
-        "data_locacao": kwargs["data_locacao"] if "data_locacao" in kwargs else "",
-        "status_payment": kwargs["status_payment"] if "status_payment" in kwargs else "",
+        "usuarios_id": kwargs["usuarios_id"] if "usuarios_id" in kwargs else "",
+        "filmes_id": kwargs["filmes_id"] if "filmes_id" in kwargs else "",
+        "tipo_pagamento": kwargs["status_pagamento"] if "status_pagamento" in kwargs else "",
     }
 
 
@@ -75,12 +74,6 @@ def locations_from_db(location):
         "usuarios_id": location["usuarios_id"],
     }
 
-def payments_from_web(**kwargs):
-    return {
-        "tipo": kwargs["tipo"] if "tipo" in kwargs else "",
-        "valor": kwargs["valor"] if "valor" in kwargs else "",
-        "locacoes_id": kwargs["locacoes_id"] if "locacoes_id" in kwargs else ""
-    }
 
 def payments_from_db(payment):
     return {

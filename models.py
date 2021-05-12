@@ -97,7 +97,7 @@ def get_user_by_name(nome_completo):
     return Users().select_like("nome_completo", nome_completo)
 
 
-def make_location(data_inicio, data_fim, filmes_id, usuarios_id):
+def make_location(filmes_id, usuarios_id, data_inicio = "now()", data_fim="now() + interval 2 day"):
     return Locations().insert([data_inicio, data_fim, filmes_id, usuarios_id])
 
 
@@ -106,12 +106,16 @@ def create_payment(tipo, status, codigo_pagamento, valor, data, locacoes_id):
 
 
 def check_locations(id_usuario):
-    return Locations().select_like("id_usuario", id_usuario)
+    return Locations().select_location_by_userid(id_usuario)
 
 
 def get_locations_from_movie(id_filme):
-    return Locations().select_like("id_filme", id_filme)
+    return Locations().select_location_by_movieid(id_filme)
 
 
 def get_location_by_id(key_value):
-    return Locations().select(key_value)[0]
+    return Locations().select_location_by_id(key_value)[0]
+
+
+def get_payment_by_id(key_value):
+    return Payments().select(key_value)[0]
